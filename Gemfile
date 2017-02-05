@@ -20,12 +20,12 @@ group :development do
   gem 'spring'
 end
 
-group : development,: test do
+group :development, :test do
   gem 'sqlite3'
   gem 'pry'
 end
 
-group : production do
+group :production do
   gem 'pg'
   gem 'rails_12factor'
 end
