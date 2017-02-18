@@ -1,0 +1,32 @@
+<%= render 'shared/page_title', title: "All Recipes" %>
+
+<!--Iterate through all the recipes-->
+<% @recipes.each do |recipe| %>
+  <div class="row">
+    
+    <div class="col-md-2">
+      
+      <!--Add styling for chef_info at custom.css.scss-->
+      <section class="chef_info center">
+        <!--Get the chef associated with the recipe-->
+        <!--Create the gravatar_for method on application_helper-->
+        <%= gravatar_for recipe.chef, size: 100 %>
+        <h5>Chef name: <%= recipe.chef.name %></h5>
+        
+      </section>
+    </div>
+    
+    <!--Contents of the recipe-->
+    <div class="col-md-8 well">
+      <!--Give the recipe name link a path-->
+      <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
+      <p><%= recipe.summary %></p>
+      <p>
+        <span class='quiet'><small> <%= time_ago_in_words(recipe.created_at) %> ago</small></span>
+      </p>
+    </div>
+    
+  </div>
+  <!--Add horizontal line after each recipe-->
+  <hr/>
+<% end %>
