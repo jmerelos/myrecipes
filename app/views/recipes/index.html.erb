@@ -1,5 +1,8 @@
 <%= render 'shared/page_title', title: "All Recipes" %>
 
+<!--Pagination-->
+<%= will_paginate %>
+
 <!--Iterate through all the recipes-->
 <% @recipes.each do |recipe| %>
   <div class="row">
@@ -22,8 +25,19 @@
       <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
       <p><%= recipe.summary %></p>
       <p>
-        <span class='quiet'><small> <%= time_ago_in_words(recipe.created_at) %> ago</small></span>
+        <span class='quiet'><small> created: <%= time_ago_in_words(recipe.created_at) %> ago, </small></span>
+        <span class='quiet'><small> updated: <%= time_ago_in_words(recipe.updated_at) %> ago</small></span>
       </p>
+      <div class="pull-right">
+        <!--Show like icon-->
+        <%= link_to like_recipe_path(recipe, like: true), method: :post do %>
+        <i class="glyphicon glyphicon-thumbs-up"></i> &nbsp <%= recipe.thumbs_up_total %>
+        <% end %> &nbsp&nbsp&nbsp
+        <%= link_to like_recipe_path(recipe, like: false), method: :post do %>
+        <!--Show dislike icon-->
+        <i class="glyphicon glyphicon-thumbs-down"></i> &nbsp <%= recipe.thumbs_down_total %>
+        <% end %>
+      </div>
     </div>
     
     <!--Image of recipe-->
@@ -35,3 +49,6 @@
   <!--Add horizontal line after each recipe-->
   <hr/>
 <% end %>
+
+<!--Pagination-->
+<%= will_paginate %>

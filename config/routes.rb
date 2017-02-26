@@ -4,5 +4,11 @@ Rails.application.routes.draw do
   get '/home', to: 'pages#home'
   
   # Create all the needed routes e.g recipes#new
-  resources :recipes
+  resources :recipes do
+    member do
+      post 'like'
+    end
+  end
+  
+  
 end
