@@ -1,24 +1,25 @@
-<%= render 'shared/page_title', title: "All Recipes" %>
+<%= render 'shared/page_title', title: "Chef: " + @chef.name %>
 
-<!--Pagination-->
-<%= will_paginate %>
+<div class="row">
+  <!--Image of chef from email address gravatar-->
+  <div class="col-md-4 col-md-offset-4 center">
+    <%= gravatar_for @chef, size: 150 %>
+    <hr/>
+  </div>
+</div>
 
-<!--Iterate through all the recipes-->
+<!--Pagination through recipes on chef profile-->
+<div class="row">
+  <div class="col-md-4 col-md-offset-4 center">
+    <h3><em>Recipes:</em></h3>
+    <%= will_paginate @recipes %>
+  </div>
+</div>
+
+<!--Display recipes created by chefs copied from recipes index.html.erb-->
 <% @recipes.each do |recipe| %>
   <div class="row">
-    
-    <div class="col-md-2">
-      <!--Add styling for chef_info at custom.css.scss-->
-      <section class="chef_info center">
-        <!--Get the chef associated with the recipe-->
-        <!--Create the gravatar_for method on application_helper-->
-        <%= link_to gravatar_for(recipe.chef, size: 100), chef_path(recipe.chef) %>
-        <h5>Chef name: <%= recipe.chef.name %></h5>
-      </section>
-    </div>
-    
-    <!--Contents of the recipe-->
-    <div class="col-md-6 well">
+    <div class="col-md-6 well col-md-offset-3">
       <!--Give the recipe name link a path-->
       <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
       <p><%= recipe.summary %></p>
@@ -37,16 +38,5 @@
         <% end %>
       </div>
     </div>
-    
-    <!--Image of recipe-->
-    <div class="col-md-4">
-      <%= image_tag(recipe.picture.url, size: "250x150", class: "gravatar") if recipe.picture? %>
-    </div>
-    
   </div>
-  <!--Add horizontal line after each recipe-->
-  <hr/>
 <% end %>
-
-<!--Pagination-->
-<%= will_paginate %>
