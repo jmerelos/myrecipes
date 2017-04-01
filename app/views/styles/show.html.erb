@@ -1,4 +1,4 @@
-<%= render 'shared/page_title', title: "All Recipes" %>
+<%= render 'shared/page_title', title: "Recipes for: " + @style.name + " food" %>
 
 <ul class="nav nav-tabs">
   <li class="active">
@@ -9,57 +9,46 @@
   </li>
 </ul>
 
-<!--Pagination-->
-<%= will_paginate %>
+<%= will_paginate @recipes %>
 
-<!--Iterate through all the recipes-->
-<% @recipes.each do |recipe| %>
+<% @style.recipes.each do |recipe| %>
   <div class="row">
     
     <div class="col-md-2">
-      <!--Add styling for chef_info at custom.css.scss-->
       <section class="chef_info center">
-        <!--Get the chef associated with the recipe-->
-        <!--Create the gravatar_for method on application_helper-->
         <%= link_to gravatar_for(recipe.chef, size: 100), chef_path(recipe.chef) %>
         <h5>Chef name: <%= recipe.chef.name %></h5>
       </section>
     </div>
     
-    <!--Contents of the recipe-->
     <div class="col-md-6 well">
-      <!--Give the recipe name link a path-->
       <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
       <p><%= recipe.summary %></p>
-      <!--render a style partial-->
+
       <p>Styles: <%= render recipe.styles %></p>
-      <!--render an ingredient partial-->
       <p>Ingredients: <%= render recipe.ingredients %></p>
+      
       <p>
         <span class='quiet'><small> created: <%= time_ago_in_words(recipe.created_at) %> ago, </small></span>
         <span class='quiet'><small> updated: <%= time_ago_in_words(recipe.updated_at) %> ago</small></span>
       </p>
       <div class="pull-right">
-        <!--Show like icon-->
         <%= link_to like_recipe_path(recipe, like: true), method: :post do %>
         <i class="glyphicon glyphicon-thumbs-up"></i> &nbsp <%= recipe.thumbs_up_total %>
         <% end %> &nbsp&nbsp&nbsp
         <%= link_to like_recipe_path(recipe, like: false), method: :post do %>
-        <!--Show dislike icon-->
         <i class="glyphicon glyphicon-thumbs-down"></i> &nbsp <%= recipe.thumbs_down_total %>
         <% end %>
       </div>
     </div>
-    
-    <!--Image of recipe-->
+
     <div class="col-md-4">
       <%= image_tag(recipe.picture.url, size: "250x150", class: "gravatar") if recipe.picture? %>
     </div>
     
   </div>
-  <!--Add horizontal line after each recipe-->
+
   <hr/>
 <% end %>
 
-<!--Pagination-->
-<%= will_paginate %>
+<%= will_paginate @recipes %>
